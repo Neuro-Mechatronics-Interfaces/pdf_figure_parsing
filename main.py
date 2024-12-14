@@ -8,8 +8,7 @@ def parse_single_file(input_file, tesseract_exe):
     results = parser.parse()
 
     # Save results to CSV
-    output_csv = input_file.replace('.png', '.csv')
-    parser.parse_report(output_csv)
+    parser.parse_report()
 
     return results
 
@@ -18,7 +17,7 @@ def batch_parse(directory, tesseract_exe):
     for filename in os.listdir(directory):
         if filename.endswith(".png"):
             file_path = os.path.join(directory, filename)
-            match = re.match(r"(M\d+)-\d+_(\w+)\.png", filename)
+            match = re.match(r"(M\d+-\d+)_(\w+)\.png", filename)
             if match:
                 monkey, muscle = match.groups()
             else:
@@ -28,8 +27,7 @@ def batch_parse(directory, tesseract_exe):
             file_results = parser.parse()
 
             # Save results to CSV
-            output_csv = file_path.replace('.png', '.csv')
-            parser.parse_report(output_csv)
+            parser.parse_report()
 
             file_results["monkey"] = monkey
             file_results["muscle"] = muscle
